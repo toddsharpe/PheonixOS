@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<NoStdLib>true</NoStdLib>
+		<NoConfig>true</NoConfig>
+		<IlcGenerateMapFile>true</IlcGenerateMapFile>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+		<LinkerSubsystem>EFI_APPLICATION</LinkerSubsystem>
+		<EntryPointSymbol>EfiMain</EntryPointSymbol>
+		<IlcSystemModule>CoreLib</IlcSystemModule>
+		<IlcDisableReflection>true</IlcDisableReflection>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\CoreLib\CoreLib.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<NativeLibrary Include="$(MSBuildStartupDirectory)\build\x64\Debug\NativeLib.lib" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<LinkerArg Include="/map:Loader.map /DEBUG" />
+	</ItemGroup>
+
+	<!-- The project file pretends this is .NET, but it's not .NET. Remove all assembly references the .NET SDK added. -->
+	<Target Name="CustomizeReferences" BeforeTargets="BeforeCompile" AfterTargets="FindReferenceAssembliesForReferences">
+		<ItemGroup>
+			<ReferencePathWithRefAssemblies Remove="@(ReferencePathWithRefAssemblies)" Condition="%(Filename) != 'CoreLib'" />
+			<ReferencePath Remove="@(ReferencePath)" />
+		</ItemGroup>
+	</Target>
+
+	<!-- The AOT compiler would want to mirror these as AppContext switches. Prevent that. -->
+	<Target Name="RemoveHostConfigurationOptions" BeforeTargets="WriteIlcRspFileForCompilation" DependsOnTargets="PrepareForILLink">
+		<ItemGroup>
+			<RuntimeHostConfigurationOption Remove="@(RuntimeHostConfigurationOption)" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="CopyBinary" AfterTargets="Publish">
+		<Copy SourceFiles="$(MSBuildProjectDirectory)\$(NativeOutputPath)$(TargetName)$(NativeBinaryExt)" DestinationFiles="$(MSBuildStartupDirectory)\build\EFI\BOOT\BOOTX64.efi" />
+	</Target>
+
+</Project>
