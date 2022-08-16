@@ -34,17 +34,21 @@ namespace Loader
 
 		[DllImport("*")]
 		////internal static extern bool cpuid_GetVendor(ref Buffer buffer);
-		private static unsafe extern bool cpuid_GetVendor(char* data, nuint length);
+		private static unsafe extern bool cpuid_GetVendor(byte* data, nuint length);
 
 		[DllImport("*")]
 		private static extern nuint mbstowcs(IntPtr _Dest, IntPtr _Source, nuint _MaxCount);
 
 		public static unsafe string GetVendor()
 		{
+			//byte* c_str = stackalloc byte[13];
+			//cpuid_GetVendor(c_str, 13);
+
 			//char* buffer = stackalloc char[13];
-			//cpuid_GetVendor(buffer, 13);
-			char* t = stackalloc char[1];
-			return new string(t);
+			//mbstowcs((IntPtr)buffer, (IntPtr)c_str, 13);
+			char* buffer = stackalloc char[13];
+			buffer[0] = 'a';
+			return new string(buffer);
 		}
 	}
 }

@@ -31,7 +31,13 @@ namespace System
 			}
 		}
 
+#pragma warning disable 824
 		public extern unsafe String(char* ptr);
+		public extern String(IntPtr ptr);
+		public extern String(char[] buf);
+		public extern unsafe String(char* ptr, int index, int length);
+		public extern unsafe String(char[] buf, int index, int length);
+#pragma warning restore 824
 
 
 		static unsafe string Ctor(char* ptr)

@@ -3,14 +3,14 @@ using System.Runtime;
 
 namespace Loader
 {
-	unsafe class Program
+	unsafe static class Program
 	{
 		static void Main() { }
 
 		[RuntimeExport("EfiMain")]
 		static long EfiMain(IntPtr imageHandle, EFI_SYSTEM_TABLE* systemTable)
 		{
-			Console.Init(systemTable);
+			Platform.Init(systemTable);
 			Console.Clear();
 			
 			Console.WriteLine("Hello world from C#!");

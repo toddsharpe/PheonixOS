@@ -8,6 +8,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLib", "CoreLib\CoreLib.csproj", "{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loader", "Loader\Loader.csproj", "{FE4653B1-63F6-4834-A295-8174EC5E819C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33C276C8-CAD4-45C5-A2E8-4EEC8807705E} = {33C276C8-CAD4-45C5-A2E8-4EEC8807705E}
+		{EDF1A5A5-4C89-4BEB-AFB0-FCD64AFC1F12} = {EDF1A5A5-4C89-4BEB-AFB0-FCD64AFC1F12}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{12C2B02D-1264-472B-9E78-92249887F3E4}"
 	ProjectSection(SolutionItems) = preProject

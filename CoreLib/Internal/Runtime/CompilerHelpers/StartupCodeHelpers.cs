@@ -44,5 +44,11 @@ namespace Internal.Runtime.CompilerHelpers
 		{
 			Platform.CopyMemory(obj, (IntPtr)(&type), (ulong)sizeof(IntPtr));
 		}
+
+		[RuntimeExport("RhpAssignRef")]
+		static unsafe void RhpAssignRef(void** address, void* obj)
+		{
+			*address = obj;
+		}
 	}
 }
