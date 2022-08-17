@@ -13,7 +13,12 @@ namespace Loader
 		EFI_SUCCESS = 0,
 
 		EFI_ERROR = 0x8000000000000000,
-		EFI_INVALID_PARAMETER = 1 | EFI_ERROR,
+		EFI_LOAD_ERROR = 1 | EFI_ERROR,
+		EFI_INVALID_PARAMETER = 2 | EFI_ERROR,
+		EFI_UNSUPPORTED = 3 | EFI_ERROR,
+		EFI_BAD_BUFFER_SIZE = 4 | EFI_ERROR,
+		EFI_BUFFER_TOO_SMALL = 5 | EFI_ERROR,
+		EFI_NOT_READY = 6 | EFI_ERROR,
 	}
 
 	public enum EFI_MEMORY_TYPE
@@ -69,6 +74,40 @@ namespace Loader
 	struct EFI_HANDLE
 	{
 		private IntPtr _handle;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public readonly struct EFI_INPUT_KEY
+	{
+		private readonly ushort ScanCode;
+		public readonly char UnicodeChar;
+
+		public EFI_INPUT_KEY(char unicodeChar)
+		{
+			ScanCode = 0;
+			UnicodeChar = unicodeChar;
+		}
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	unsafe readonly struct EFI_SIMPLE_TEXT_INPUT_PROTOCOL
+	{
+		private readonly delegate* unmanaged<EFI_SIMPLE_TEXT_INPUT_PROTOCOL*, bool, EFI_STATUS> _Reset;
+		private readonly delegate* unmanaged<EFI_SIMPLE_TEXT_INPUT_PROTOCOL*, EFI_INPUT_KEY*, EFI_STATUS> _ReadKeyStroke;
+		private readonly IntPtr _WaitForKey;
+
+		public EFI_STATUS Reset(bool ExtendedVerification = false)
+		{
+			fixed (EFI_SIMPLE_TEXT_INPUT_PROTOCOL* _this = &this)
+				return _Reset(_this, ExtendedVerification);
+		}
+
+		public EFI_STATUS ReadKeyStroke(out EFI_INPUT_KEY Key)
+		{
+			fixed (EFI_SIMPLE_TEXT_INPUT_PROTOCOL* _this = &this)
+			fixed (EFI_INPUT_KEY* _key = &Key)
+				return _ReadKeyStroke(_this, _key);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -182,7 +221,7 @@ namespace Loader
 		public readonly char* FirmwareVendor;
 		public readonly uint FirmwareRevision;
 		public readonly EFI_HANDLE ConsoleInHandle;
-		public readonly void* ConIn;
+		public readonly EFI_SIMPLE_TEXT_INPUT_PROTOCOL* ConIn;
 		public readonly EFI_HANDLE ConsoleOutHandle;
 		public readonly EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL* ConOut;
 		public readonly EFI_HANDLE StandardErrorHandle;

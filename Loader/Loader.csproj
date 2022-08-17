@@ -13,17 +13,13 @@
 		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
 		<LinkerSubsystem>EFI_APPLICATION</LinkerSubsystem>
 		<EntryPointSymbol>EfiMain</EntryPointSymbol>
-		<IlcSystemModule>CoreLib</IlcSystemModule>
+		<IlcSystemModule>Loader</IlcSystemModule>
 		<RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
 		<IlcDisableReflection>true</IlcDisableReflection>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-*" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\CoreLib\CoreLib.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -38,7 +34,7 @@
 	<!-- The project file pretends this is .NET, but it's not .NET. Remove all assembly references the .NET SDK added. -->
 	<Target Name="CustomizeReferences" BeforeTargets="BeforeCompile" AfterTargets="FindReferenceAssembliesForReferences">
 		<ItemGroup>
-			<ReferencePathWithRefAssemblies Remove="@(ReferencePathWithRefAssemblies)" Condition="%(Filename) != 'CoreLib'" />
+			<ReferencePathWithRefAssemblies Remove="@(ReferencePathWithRefAssemblies)" />
 			<ReferencePath Remove="@(ReferencePath)" />
 		</ItemGroup>
 	</Target>
@@ -53,5 +49,7 @@
 	<Target Name="CopyBinary" AfterTargets="Publish">
 		<Copy SourceFiles="$(MSBuildProjectDirectory)\$(NativeOutputPath)$(TargetName)$(NativeBinaryExt)" DestinationFiles="$(MSBuildStartupDirectory)\build\EFI\BOOT\BOOTX64.efi" />
 	</Target>
+
+	<Import Project="..\CoreLib\CoreLib.projitems" Label="Shared" />
 
 </Project>

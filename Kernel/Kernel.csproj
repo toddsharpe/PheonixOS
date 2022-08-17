@@ -20,10 +20,6 @@
 		<PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-*" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
-	</ItemGroup>
-
 	<!-- The project file pretends this is .NET, but it's not .NET. Remove all assembly references the .NET SDK added. -->
 	<Target Name="CustomizeReferences" BeforeTargets="BeforeCompile" AfterTargets="FindReferenceAssembliesForReferences">
 		<ItemGroup>
@@ -42,5 +38,7 @@
 	<Target Name="CopyBinary" AfterTargets="Publish">
 		<Copy SourceFiles="$(MSBuildProjectDirectory)\$(NativeOutputPath)$(TargetName)$(NativeBinaryExt)" DestinationFiles="$(MSBuildStartupDirectory)\build\kernel.exe" />
 	</Target>
+
+	<Import Project="..\CoreLib\CoreLib.projitems" Label="Shared" />
 
 </Project>

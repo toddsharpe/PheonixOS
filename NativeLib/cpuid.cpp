@@ -9,26 +9,18 @@ enum Regs
 	EDX
 };
 
-extern "C" int cpuid()
+struct CpuId
 {
-	return 1;
-}
+	uint32_t Eax;
+	uint32_t Ebx;
+	uint32_t Ecx;
+	uint32_t Edx;
+};
 
-//extern "C" bool cpuid_GetVendor(Buffer * buffer)
-//{
-//	if (buffer->Length < 13)
-//		return false;
-//
-//	int registers[4] = { 0 };
-//	__cpuid(registers, 0);
-//
-//	char* c_buffer = static_cast<char*>(buffer->Data);
-//	*((uint32_t*)c_buffer) = (uint32_t)registers[Regs::EBX];
-//	*((uint32_t*)(c_buffer + sizeof(uint32_t))) = (uint32_t)registers[Regs::EDX];
-//	*((uint32_t*)(c_buffer + sizeof(uint32_t) * 2)) = (uint32_t)registers[Regs::ECX];
-//
-//	return true;
-//}
+extern "C" void cpuid(CpuId* cpuid, int index)
+{
+	__cpuid((int*)cpuid, index);
+}
 
 extern "C" bool cpuid_GetVendor(char* buffer, size_t length)
 {
@@ -42,6 +34,7 @@ extern "C" bool cpuid_GetVendor(char* buffer, size_t length)
 	*((uint32_t*)c_buffer) = (uint32_t)registers[Regs::EBX];
 	*((uint32_t*)(c_buffer + sizeof(uint32_t))) = (uint32_t)registers[Regs::EDX];
 	*((uint32_t*)(c_buffer + sizeof(uint32_t) * 2)) = (uint32_t)registers[Regs::ECX];
+	c_buffer[12] = '\0';
 
 	return true;
 }

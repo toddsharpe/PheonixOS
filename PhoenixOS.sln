@@ -5,8 +5,6 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel", "Kernel\Kernel.csproj", "{2A6EC708-EB09-46B7-835B-7DC74BD0B415}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLib", "CoreLib\CoreLib.csproj", "{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loader", "Loader\Loader.csproj", "{FE4653B1-63F6-4834-A295-8174EC5E819C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{33C276C8-CAD4-45C5-A2E8-4EEC8807705E} = {33C276C8-CAD4-45C5-A2E8-4EEC8807705E}
@@ -22,6 +20,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CRT", "CRT\CRT.vcxproj", "{33C276C8-CAD4-45C5-A2E8-4EEC8807705E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeLib", "NativeLib\NativeLib.vcxproj", "{EDF1A5A5-4C89-4BEB-AFB0-FCD64AFC1F12}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CoreLib", "CoreLib\CoreLib.shproj", "{3C831585-FB03-4CEE-976C-A4A27ABF77E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,18 +45,6 @@ Global
 		{2A6EC708-EB09-46B7-835B-7DC74BD0B415}.Release|x64.Build.0 = Release|Any CPU
 		{2A6EC708-EB09-46B7-835B-7DC74BD0B415}.Release|x86.ActiveCfg = Release|Any CPU
 		{2A6EC708-EB09-46B7-835B-7DC74BD0B415}.Release|x86.Build.0 = Release|Any CPU
-		{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}.Debug|x64.Build.0 = Debug|Any CPU
-		{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}.Debug|x86.Build.0 = Debug|Any CPU
-		{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}.Release|x64.ActiveCfg = Release|Any CPU
-		{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}.Release|x64.Build.0 = Release|Any CPU
-		{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}.Release|x86.ActiveCfg = Release|Any CPU
-		{2CEF12D4-222F-4B37-B98E-85767AA1FCF7}.Release|x86.Build.0 = Release|Any CPU
 		{FE4653B1-63F6-4834-A295-8174EC5E819C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FE4653B1-63F6-4834-A295-8174EC5E819C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE4653B1-63F6-4834-A295-8174EC5E819C}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -99,5 +87,10 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7EBA93E-B9FC-40F1-84DD-5707DEC9D042}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		CoreLib\CoreLib.projitems*{2a6ec708-eb09-46b7-835b-7dc74bd0b415}*SharedItemsImports = 5
+		CoreLib\CoreLib.projitems*{3c831585-fb03-4cee-976c-a4a27abf77e6}*SharedItemsImports = 13
+		CoreLib\CoreLib.projitems*{fe4653b1-63f6-4834-a295-8174ec5e819c}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

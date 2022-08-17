@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <string.h>
 
 size_t mbstowcs(wchar_t* _Dest, char const* _Source, size_t _MaxCount)
 {

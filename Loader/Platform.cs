@@ -1,53 +1,53 @@
-﻿using System;
+﻿using Loader;
+using System;
 using System.Runtime;
 
-namespace Loader
+internal static unsafe class Platform
 {
-	internal unsafe class Platform
+	private static EFI_SYSTEM_TABLE* ST;
+	public static void Init(EFI_SYSTEM_TABLE* st)
 	{
-		private static EFI_SYSTEM_TABLE* ST;
-		public static void Init(EFI_SYSTEM_TABLE* st)
-		{
-			ST = st;
-		}
+		ST = st;
+	}
 
-		[RuntimeExport("ClearConsole")]
-		public static void ClearConsole()
-		{
-			ST->ConOut->ClearScreen();
-		}
+	[RuntimeExport("ClearConsole")]
+	public static void ClearConsole()
+	{
+		ST->ConOut->ClearScreen();
 
-		[RuntimeExport("Write")]
-		public static void Write(string msg)
-		{
-			ST->ConOut->OutputString(msg);
-		}
+		ST->ConIn->Reset();
+	}
 
-		[RuntimeExport("WriteLine")]
-		public static void WriteLine(string msg = "")
-		{
-			Write(msg);
-			Write("\r\n");
-		}
+	[RuntimeExport("Write")]
+	public static void Write(string msg)
+	{
+		ST->ConOut->OutputString(msg);
+	}
 
-		[RuntimeExport("Allocate")]
-		public static unsafe IntPtr Allocate(ulong size)
-		{
-			IntPtr pointer = IntPtr.Zero;
-			ST->BootServices->AllocatePool(EFI_MEMORY_TYPE.EfiLoaderData, size, &pointer);
-			return pointer;
-		}
+	[RuntimeExport("WriteLine")]
+	public static void WriteLine(string msg = "")
+	{
+		Write(msg);
+		Write("\r\n");
+	}
 
-		[RuntimeExport("ZeroMemory")]
-		public static unsafe void ZeroMemory(IntPtr ptr, UInt64 len)
-		{
-			ST->BootServices->SetMem(ptr, len, 0);
-		}
+	[RuntimeExport("Allocate")]
+	public static unsafe IntPtr Allocate(ulong size)
+	{
+		IntPtr pointer = IntPtr.Zero;
+		ST->BootServices->AllocatePool(EFI_MEMORY_TYPE.EfiLoaderData, size, &pointer);
+		return pointer;
+	}
 
-		[RuntimeExport("CopyMemory")]
-		public static unsafe void CopyMemory(IntPtr dst, IntPtr src, ulong len)
-		{
-			ST->BootServices->CopyMem(dst, src, len);
-		}
+	[RuntimeExport("ZeroMemory")]
+	public static unsafe void ZeroMemory(IntPtr ptr, UInt64 len)
+	{
+		ST->BootServices->SetMem(ptr, len, 0);
+	}
+
+	[RuntimeExport("CopyMemory")]
+	public static unsafe void CopyMemory(IntPtr dst, IntPtr src, ulong len)
+	{
+		ST->BootServices->CopyMem(dst, src, len);
 	}
 }
