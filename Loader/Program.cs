@@ -25,6 +25,7 @@ namespace Loader
 
 			StringBuilder sb = new StringBuilder();
 
+
 			Console.Write("Press any key to continue...");
 			systemTable->ConIn->Reset();
 			EFI_STATUS status;
